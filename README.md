@@ -5,5 +5,5 @@
 - Utilizar métodos de organização de dados, até agora
 - [x] Bubble sort
 - [x] Selection sort
-- [] Insertion sort oct/6/2024
-- [] Shell sort oct/6/2024
+- [ ] Insertion sort oct/6/2024
+- [ ] Shell sort oct/6/2024

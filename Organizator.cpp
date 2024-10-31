@@ -13,11 +13,19 @@
 /************************ SESSAO DE PROTOTIPACAO *************************************/
 // Sessao publica
 void DSSelector();
-int size = 0;
-
+void sortQuestion();
+void sortearNumeros(int num[1000]);
 void structureList();
 void structureStack();
 void structureQueue();
+
+int size = 0;
+int i = 0, j = 0, aux = 0;
+
+////***************************** BIG O NOTATION *************************************/
+int trocas, comp;
+
+////*************************** FIM BIG O NOTATION ***********************************/
 
 // Sessao stack
 void push(int);
@@ -64,7 +72,6 @@ void imprimir_lista(Lista *lista);
 void remover_no_lista(Lista *lista, int ida);
 
 // Sessao bubble sort
-void sortearNumeros(int num[1000]);
 void initBubbleSort();
 
 /******************* FIM DA SESSAO DE PROTOTIPACAO ***********************************/
@@ -85,6 +92,7 @@ int main() {
 /********************** SESSAO DE MODELAGEM DE FUNCAO ********************************/
 // Funcao para selecionar a estrutura de dados que deseja mexer
 void DSSelector() {
+    comp = 0, trocas = 0;
     int option = 0;
     puts("==========================");
     puts("Bem vindo ao programa!");
@@ -101,7 +109,7 @@ void DSSelector() {
             structureStack();
             break;
         case 4:
-            initBubbleSort();
+            sortQuestion();
             break;
         case 5:
             exit(0);
@@ -137,6 +145,38 @@ void structureList(){
         }
     }
 }
+
+void sortQuestion(){
+    int option;
+    while (1) {
+        /* Aqui a ideia eh imprimir o vetor inteiro e deixar com que o usuario escolha se ele quer organiza-lo com o buble sort, selection sort ou comparar os dois */
+        /* Em todas as tres decisoes deve perguntar se o usuario gostaria de organizar de forma crescente ou decreste */
+        system("cls") || system("clear");
+        puts("======== Bem-vindo ========")
+        /* Algoritmo para imprimir o array aleatorio*/
+        printf("\n\nArray com 1,000 numeros");
+        printf("\nSelecione para o que deseja fazer:\n1) Organizar o array com o algoritmo bubble sort\n2) Organizar com o algoritmo do selection sort\n3) Comparar os dois algoritmos\n4) Sair...");
+        scanf("%d", &option);
+        switch(option){
+            case 1:
+                ...
+            break;
+            case 2:
+                ...
+            break;
+            case 3:
+                ...
+            break;
+            case 4:
+                return;
+            break;
+            default:
+                printf("\nOpcao invalida...");
+            break;
+        }
+    }
+}
+
 void structureQueue(){
 
     inicio = 0;

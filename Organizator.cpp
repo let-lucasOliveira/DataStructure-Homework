@@ -10,11 +10,13 @@
 #include <time.h>
 #include <string.h>
 
+#define MAX 1000
+
 /************************ SESSAO DE PROTOTIPACAO *************************************/
 // Sessao publica
 void DSSelector();
 void sortQuestion();
-void sortearNumeros(int num[1000]);
+void sortearNumeros(int num[MAX]);
 void structureList();
 void structureStack();
 void structureQueue();
@@ -24,6 +26,7 @@ int i = 0, j = 0, aux = 0;
 
 ////***************************** BIG O NOTATION *************************************/
 int trocas, comp;
+void reportResults();
 
 ////*************************** FIM BIG O NOTATION ***********************************/
 
@@ -52,9 +55,7 @@ int senhas[5];
 
 // Sessao linked list
 typedef struct No {
-    char *nome;
-    int idade;
-    float altura;
+    int value;
     struct No *prox;
 } No;
 
@@ -74,10 +75,15 @@ void remover_no_lista(Lista *lista, int ida);
 // Sessao bubble sort
 void initBubbleSort();
 
+// Sessao selection sort
+void initSelectioSort();
+int SelectAux = 0;
+
 /******************* FIM DA SESSAO DE PROTOTIPACAO ***********************************/
 
 
 /********************************* SESSAO MAIN ***************************************/
+
 int main() {
     while (1) {
         //system("cls") || system("clear");
@@ -151,21 +157,27 @@ void sortQuestion(){
     while (1) {
         /* Aqui a ideia eh imprimir o vetor inteiro e deixar com que o usuario escolha se ele quer organiza-lo com o buble sort, selection sort ou comparar os dois */
         /* Em todas as tres decisoes deve perguntar se o usuario gostaria de organizar de forma crescente ou decreste */
+        int arr[MAX]; sortearNumeros(arr);
+
         system("cls") || system("clear");
-        puts("======== Bem-vindo ========")
-        /* Algoritmo para imprimir o array aleatorio*/
-        printf("\n\nArray com 1,000 numeros");
+        puts("======== Bem-vindo ========");
+        
+        printf("\n\nArray com 1,000 numeros:    ");
+        for(int sq = 0; sq > MAX; sq++){
+            sq == 0 ? printf("| %d |") : printf(" %d |");
+        }
+
         printf("\nSelecione para o que deseja fazer:\n1) Organizar o array com o algoritmo bubble sort\n2) Organizar com o algoritmo do selection sort\n3) Comparar os dois algoritmos\n4) Sair...");
         scanf("%d", &option);
         switch(option){
             case 1:
-                ...
+                initBubbleSort();
             break;
             case 2:
-                ...
+                //...
             break;
             case 3:
-                ...
+                //...
             break;
             case 4:
                 return;
@@ -452,18 +464,18 @@ void remover_no_lista(Lista *lista, int ida) {
 }
 
 
-void sortearNumeros(int num[1000]) {
+void sortearNumeros(int num[MAX]) {
     srand(time(NULL));
-    for (int i = 0; i < 1000; i++) {
-        num[i] = rand() % 1000;
+    for (int i = 0; i < MAX; i++) {
+        num[i] = rand() % MAX;
     }
 }
 
 void initBubbleSort() {
-    int num[1000];
+    int num[MAX];
     sortearNumeros(num);
-    for (int i = 0; i < 1000 - 1; i++) {
-        for (int j = 0; j < 1000 - i - 1; j++) {
+    for (int i = 0; i < MAX - 1; i++) {
+        for (int j = 0; j < MAX - i - 1; j++) {
             if (num[j] > num[j + 1]) {
                 int temp = num[j];
                 num[j] = num[j + 1];
@@ -471,7 +483,7 @@ void initBubbleSort() {
             }
         }
     }
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < MAX; i++) {
         printf("%d ", num[i]);
     }
     printf("\n");

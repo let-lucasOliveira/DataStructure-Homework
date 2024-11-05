@@ -1,123 +1,93 @@
 /*
-  Name: Organizator.cpp
-  Author: Lucas Oliveira
-  Date: 20/oct/2024
-  Description: Algoritmo utilizado para demonstrar como diferentes estruturas de dados funcionam, aqui mexeremos com pilha, fila e lista encadeada. Tambem contaremos com o algoritmo bubble sort para organizar 1,000 numeros.
-*/
+Name: Organizator.cpp
+Author: Lucas Oliveira
+Date: oct/26/2024
+Description: Um algoritmo para unir todas as funcionalidades ministradas na disciplina de Estrutura de Dados, planejada e ministrada por Alexandre Cassiano.
+Neste projeto abordaremos estruturas de dados como:
+ - Lista
+ - Pilha
+ - Fila
 
+ Também utilizaremos algoritmos para ordenação de dados:
+
+ - Bubble Sort ()
+ - Selection Sort ()
+
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <string.h>
 
 #define MAX 1000
 
-/************************ SESSAO DE PROTOTIPACAO *************************************/
-// Sessao publica
-void DSSelector();
+
+/******************************** Sessao de prototipacao ****************************************************/
+// Globais
+void DSQuestion();
+void RandomizeArray();
 void sortQuestion();
-void sortearNumeros(int num[MAX]);
-void structureList();
-void structureStack();
-void structureQueue();
+void structQuestion();
 
-int size = 0;
-int i = 0, j = 0, aux = 0;
+// stack, queue, list [0 -> false, 1 -> true]
+int structureUsed[] = {0, 0, 0};
 
-////***************************** BIG O NOTATION *************************************/
-int trocas, comp;
-void reportResults();
+int strUsdLength = sizeof(structureUsed) / sizeof(structureUsed[0]);
+int arraySum(int arr[]);
 
-////*************************** FIM BIG O NOTATION ***********************************/
+// Sessao pilha
+void StackQuestion();
 
-// Sessao stack
-void push(int);
-int pop();
-int isFull_Stack();
-int isEmpty_Stack();
-void printStack();
-int stack_top();
-void conversorBinario(int);
-void exibirNumBinario();
+// Sessao fila
+void QueueQuestion();
 
-int topo = -1;
-int pilha[10];
+// Sessao lista
+void listQuestion();
 
-// Sessao queue
-void pushQueue(int);
-int popQueue();
-int isEmpty_Queue();
-int isFull_Queue();
-void printAllQueue();
+//--------------------Big O Notation----------------
+int comp, trocas;
+void compareSort();
 
-int inicio, fim, total;
-int senhas[5];
-
-// Sessao linked list
-typedef struct No {
-    int value;
-    struct No *prox;
-} No;
-
-typedef struct {
-    No *inicio, *fim;
-    int tamanho;
-} Lista;
-
-Lista lista;
-
-void init_list();
-void inserir_inicio_lista(Lista *lista, char *n, int ida, float alt);
-void inserir_fim_lista(Lista *lista, char *n, int ida, float alt);
-void imprimir_lista(Lista *lista);
-void remover_no_lista(Lista *lista, int ida);
+//---------------------------------------------------
 
 // Sessao bubble sort
-void initBubbleSort();
+void initBuble();
 
 // Sessao selection sort
-void initSelectioSort();
-int SelectAux = 0;
-
-/******************* FIM DA SESSAO DE PROTOTIPACAO ***********************************/
+void initSelection();
 
 
-/********************************* SESSAO MAIN ***************************************/
+/*************************** Fim da sessao de prototipacao **************************************************/
+
+/************************************* Sessao de Main *******************************************************/
 
 int main() {
-    while (1) {
-        //system("cls") || system("clear");
-        DSSelector();
-    }
-    return 0;
+	DSQuestion();
 }
 
-/**************************** FIM DA SESSAO MAIN *************************************/
+/******************************** Fim da sessao de Main *****************************************************/
 
-
-/********************** SESSAO DE MODELAGEM DE FUNCAO ********************************/
-// Funcao para selecionar a estrutura de dados que deseja mexer
-void DSSelector() {
-    comp = 0, trocas = 0;
+/**************************** Sessao de Modelagem de funcao ************************************************/
+void DSQuestion(){
+	comp = 0, trocas = 0;
     int option = 0;
     puts("==========================");
     puts("Bem vindo ao programa!");
     printf("\n\nPara iniciarmos digite a opcao que preferir\n1) Lista\n2) Fila\n3) Pilha\n4) Ordenacao de dados\n5) Sair...\n");
     scanf("%d", &option);
     switch (option) {
-        case 1:
+        case 1: // Lista
             structureList();
             break;
-        case 2:
+        case 2: // Fila
             structureQueue();
             break;
-        case 3:
+        case 3: // Pilha
             structureStack();
             break;
-        case 4:
-            sortQuestion();
+        case 4: // Ordenacao de dados
+            structQuestion();
             break;
-        case 5:
+        case 5: // Sair
             exit(0);
             break;
         default:
@@ -126,367 +96,106 @@ void DSSelector() {
     }
 }
 
-void structureList(){
-    int opcao, elem;
-    while (1) {
-        printf("\n1) Enfileirar\n2) Desenfileirar\n3) Imprimir fila\n4) Voltar\n");
-        scanf("%d", &opcao);
-        switch (opcao) {
-            case 1:
-                printf("Elemento: ");
-                scanf("%d", &elem);
-                pushQueue(elem);
-                break;
-            case 2:
-                popQueue();
-                break;
-            case 3:
-                printAllQueue();
-                break;
-            case 4:
-                return;
-            default:
-                printf("Opcao invalida...\n");
-                break;
-        }
-    }
-}
+void structQuestion(){
+    int strUsed = arraySum(structureUsed);
+    int opt = 0;
 
-void sortQuestion(){
-    int option;
-    while (1) {
-        /* Aqui a ideia eh imprimir o vetor inteiro e deixar com que o usuario escolha se ele quer organiza-lo com o buble sort, selection sort ou comparar os dois */
-        /* Em todas as tres decisoes deve perguntar se o usuario gostaria de organizar de forma crescente ou decreste */
-        int arr[MAX]; sortearNumeros(arr);
-
-        system("cls") || system("clear");
-        puts("======== Bem-vindo ========");
-        
-        printf("\n\nArray com 1,000 numeros:    ");
-        for(int sq = 0; sq > MAX; sq++){
-            sq == 0 ? printf("| %d |") : printf(" %d |");
-        }
-
-        printf("\nSelecione para o que deseja fazer:\n1) Organizar o array com o algoritmo bubble sort\n2) Organizar com o algoritmo do selection sort\n3) Comparar os dois algoritmos\n4) Sair...");
-        scanf("%d", &option);
-        switch(option){
-            case 1:
-                initBubbleSort();
-            break;
-            case 2:
-                //...
-            break;
-            case 3:
-                //...
-            break;
-            case 4:
-                return;
-            break;
-            default:
-                printf("\nOpcao invalida...");
-            break;
-        }
-    }
-}
-
-void structureQueue(){
-
-    inicio = 0;
-    fim = 0;
-    total = 0;
-
-     int e;
-     while(1){
-
-        //system("cls") || system("clear");
-        int opcao = 0;
-        printf("1 - Inserir na Fila\n2 - Retirar na Fila\n3 - Exibir Fila\n4 - SAIR");
-        printf("\nOpcao: ");
-        scanf("%d", &opcao);
-
-        switch(opcao){
-
-        case 1: 
-         e = 0;
-         printf("digite um elemento na fila");
-         scanf("%d", &e);
-         pushQueue(e);
-         break;
-
-        case 2: 
-         popQueue();
-         break;
-
-        case 3:
-         printAllQueue();
-         getchar();
-         break;
-
-         case 4:
-          exit(0);
-
-        default:
-         puts("opcao invalida");
-
-        }//fim do switch
-
-     }//fim while
-
-}// fim structureQueue
-
-void structureStack() {
-    int elem;
-    char e;
     while(1){
-        int menu = 0;
-        printf("1 - Inserir na pilha\n2 - Retirar da pilha\n3 - Exibir a pilha\n4 - Conversor binario\n5 - Finalizar");
-        printf("\nOpcao:	");
-        scanf("%d", &menu);
-
-        switch(menu){
-            case 1: 
-                e = ' ';
-                printf("Digite um caracter que deseja inserir na pilha:	");
-                scanf(" %c", &e);//Espaço antes do %c é para acumular o enter do teclado
+        system("cls") || system("clear");
+        printf("\nIremos organizar seus dados com o algoritmo de sua preferencia, mas primeiro escolha qual das estrutura deseja organizar:\n");
+        if(structureUsed[0]){
+            printf("1 - Pilha\n");
+            scanf("%d", &opt);
+        }else if(structureUsed[1]){
+            printf("2 - Fila\n");
+            scanf("%d", &opt);
+        }else if(structureUsed[2]){
+            printf("3 - Lista\n");
+            scanf("%d", &opt);
+        }
+        printf("4 - Um vetor com 1,000 numeros aleatorios\n5 - Sair...");
+        scanf("%d", &opt);
+        
+        switch(opt){
+            case 1: // Stack
+                if (structureUsed[0] == 1)
+                    sortQuestion(0);
+                else
+                    printf("Opcao invalida!\n");
                 break;
-            case 2: 
-                pop();
+            case 2: // Queue
+                if (structureUsed[1] == 1)
+                    sortQuestion(1);
+                else
+                    printf("Opcao invalida!\n");
                 break;
-            case 3:
-                printStack();
+            case 3: // List
+                if (structureUsed[2] == 1)
+                    sortQuestion(2);
+                else
+                    printf("Opcao invalida!\n");
                 break;
-            case 4: 
-                elem = 0;
-                printf("Digite um numero inteiro para converter em binario:	");
-                scanf("%d", &elem);
-                conversorBinario(elem);
+            case 4: // sort numbers
                 break;
-            case 5:
+            case 5: // Done
                 exit(0);
             default:
-                puts("\nOpcao invalida!");
+                printf("Opcao invalida!\n");
                 break;
-        }//Fim do switch
-    }//Fim do while
-}//Fim structureStack
-
-void push(int letra){
-    if(isFull_Stack() == 1)
-        puts("\nA pilha esta cheia! - Stack Overflow");
-    else{
-        topo++;
-        pilha[topo] = letra;
+        }
     }
-}//Fim push
-
-int pop(){
-    if(isEmpty_Stack() == 1)
-        puts("==============> A pilha esta vazia!!");
-    else{
-        int elem;
-        elem = pilha[topo];
-        topo--;
-        return elem;
-    }
-}//Fim pop
-
-int isFull_Stack(){
-    if(topo == 9)
-        return 1;
-    else
-        return 0;
-}//Fim isFull
-
-int isEmpty_Stack(){
-    if(topo == -1)
-        return 1;
-    else
-        return 0;
-}//Fim isEmpty
-
-int stack_top(){
-    return pilha[topo];
 }
 
-void printStack(){
-    puts("\nConteudo da pilha:	");
-    if(isEmpty_Stack() == 1)
-        puts("\nPilha esta vazia!");
-    else
-        for(int i = 0; i <= topo; i++)
-            printf("%d ", pilha[i]);
-}
+void sortQuestion(int strChose){
+    int opt = strChose;
+    int chose;
 
-void conversorBinario(int numBaseDez){
-    int quoc, resto;
-
-    while(numBaseDez >= 2){
-        quoc = numBaseDez/2;
-        resto = numBaseDez-(quoc * 2);
-        push(resto);
-        numBaseDez = quoc;
-    }
-    push(numBaseDez);
-    exibirNumBinario();
-}
-
-void exibirNumBinario() {
-    puts("Equivalente binario:	");
-    while(isEmpty_Stack() == 0){
-        printf("%d", pop());
-    }
-    printf("\n\n");
-}
-
-void pushQueue(int elem){
-    if(isFull_Queue() == 1){
-     puts("A fila esta cheia");
-     getchar();
-    }
-
-    else{
-        senhas[fim] = elem;
-        fim = (fim+1)%5;
-        total++;
-
-        //printf("digite um numero para entrar na fila")
-    }
-
-}
-
-int popQueue(){
-
-    if(isEmpty_Queue() == 1){
-     puts("fila vazia");
-     getchar();
-    }
-
-    else
+    // Aqui a intencao eh criar um array auxiliar que ira armazenar as informacoes de acordo com a escolha de estrutura do usuario
+    // Nao ha valor default porque ira receber da structQuestion (Precisa verificar se uma func void pode ser recursivaw)
+    switch (opt)
     {
-        int elemento; 
-        elemento = senhas[inicio]; 
-        inicio = (inicio+1)%5; 
-        total--; 
-        return elemento;
+    case 0: //Stack
+        break;
+    case 1: // Queue
+        break;
+    case 2: // List
+        break;
+    case 3: // random numbers
+        break;
     }
-}
-
-int isEmpty_Queue(){
-
-    if(total == 0)//true
-    return 1;
-    else 
-    return 0; //false
-
-}
-
-int isFull_Queue(){
-   if(total == 5)
-   return 1;
-   else
-   return 0;
-}
-
-void printAllQueue(){
-    int cont, i;
-
-      puts("\nConteudo da fila");
-
-    for(cont=0, i=inicio; cont<total; cont++)
-    {
-      printf("%d|", senhas[i++]);
-    if(i == 5)
-      i = 0;	
-    }
-}
-
-void init_list() {
-    lista.inicio = NULL;
-    lista.fim = NULL;
-    lista.tamanho = 0;
-}
-
-void inserir_inicio_lista(Lista *lista, char *n, int ida, float alt) {
-    No *novo = (No *)malloc(sizeof(No));
-    novo->nome = n;
-    novo->idade = ida;
-    novo->altura = alt;
-    novo->prox = lista->inicio;
-    lista->inicio = novo;
-    if (lista->fim == NULL) {
-        lista->fim = novo;
-    }
-    lista->tamanho++;
-}
-
-void inserir_fim_lista(Lista *lista, char *n, int ida, float alt) {
-    No *novo = (No *)malloc(sizeof(No));
-    novo->nome = n;
-    novo->idade = ida;
-    novo->altura = alt;
-    novo->prox = NULL;
-    if (lista->fim) {
-        lista->fim->prox = novo;
-    } else {
-        lista->inicio = novo;
-    }
-    lista->fim = novo;
-    lista->tamanho++;
-}
-
-void imprimir_lista(Lista *lista) {
-    No *atual = lista->inicio;
-    while (atual) {
-        printf("Nome: %s, Idade: %d, Altura: %.2f\n", atual->nome, atual->idade, atual->altura);
-        atual = atual->prox;
-    }
-}
-
-void remover_no_lista(Lista *lista, int ida) {
-    No *atual = lista->inicio;
-    No *anterior = NULL;
-    while (atual && atual->idade != ida) {
-        anterior = atual;
-        atual = atual->prox;
-    }
-    if (atual) {
-        if (anterior) {
-            anterior->prox = atual->prox;
-        } else {
-            lista->inicio = atual->prox;
-        }
-        if (atual == lista->fim) {
-            lista->fim = anterior;
-        }
-        free(atual);
-        lista->tamanho--;
-    }
-}
 
 
-void sortearNumeros(int num[MAX]) {
-    srand(time(NULL));
-    for (int i = 0; i < MAX; i++) {
-        num[i] = rand() % MAX;
-    }
-}
+    while(10){
+        printf("\nEscolha como devemos organizar esta estrutura:\n1 - Bubble sort\n2 - Selection sort\n3 - Comparar ambos\n4 - Voltar...");
+        scanf("%d", chose);
 
-void initBubbleSort() {
-    int num[MAX];
-    sortearNumeros(num);
-    for (int i = 0; i < MAX - 1; i++) {
-        for (int j = 0; j < MAX - i - 1; j++) {
-            if (num[j] > num[j + 1]) {
-                int temp = num[j];
-                num[j] = num[j + 1];
-                num[j + 1] = temp;
-            }
+        switch(chose){
+            case 1:
+                initBuble();
+                break;
+            case 2:
+                initSelection();
+                break;
+            case 3:
+                compareSort();
+                break;
+            case 4:
+                structQuestion();
+                break;
+            default:
+                printf("\nOpcao invalida...");
+                break;
         }
     }
-    for (int i = 0; i < MAX; i++) {
-        printf("%d ", num[i]);
-    }
-    printf("\n");
 }
 
-/***************** FIM DA SESSAO DE MODELAGEM DE FUNCAO ******************************/
+// Funcao para somar os valores que estao armazenados no array
+int arraySum(int arr[]){
+    int result = 0;
+    for(int ind = 0; ind < strUsdLength; ind++){
+        result += arr[ind];
+    }
+    return result;
+}
+
+/*********************** Fim da sessao de Modelagem de funcao **********************************************/

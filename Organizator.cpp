@@ -27,6 +27,7 @@ void DSQuestion();
 void RandomizeArray();
 void sortQuestion();
 void structQuestion();
+void clearPrompt();
 
 // stack, queue, list [0 -> false, 1 -> true]
 int structureUsed[] = {0, 0, 0};
@@ -36,6 +37,15 @@ int arraySum(int arr[]);
 
 // Sessao pilha
 void StackQuestion();
+int stackLength = sizeof(stack) / sizeof(stack[0]);
+int stack[stackLength];
+int pop();
+void push(int num);
+void printStack();
+void binaryConversor(int decNum);
+
+int peek = -1 ;
+
 
 // Sessao fila
 void QueueQuestion();
@@ -96,12 +106,16 @@ void DSQuestion(){
     }
 }
 
+void clearPrompt() {
+        system("cls") || system("clear");
+}
+
 void structQuestion(){
     int strUsed = arraySum(structureUsed);
     int opt = 0;
 
     while(1){
-        system("cls") || system("clear");
+        clearPrompt();
         printf("\nIremos organizar seus dados com o algoritmo de sua preferencia, mas primeiro escolha qual das estrutura deseja organizar:\n");
         if(structureUsed[0]){
             printf("1 - Pilha\n");
@@ -187,6 +201,79 @@ void sortQuestion(int strChose){
                 break;
         }
     }
+}
+
+void structureStack() {
+    int value, elem, option;
+    while(1){
+        int option = 0;
+        clearPrompt();
+
+        printf("\nPilha atual:  "); printfStack();
+        printf("\n\n1 - Inserir na pilha\n2 - Retirar da pilha\n3 - Conversor binario\n5 - Finalizar");
+        printf("\nOpcao:	"); scanf("%d", &option);
+
+        switch(option){
+            case 1: 
+                while(1){
+                    int newValue = 0;
+                    clearPrompt();
+
+                    printf("\nPilha atual:  "); printfStack();
+                    printf("\n\nDigite um valor que deseja inserir: \nDigite 0 para parar de adicionar..."); scanf("%d", &newValue); 
+                    if(newValue == 0)
+                        break;
+                    else
+                        push(newValue);
+                }
+                structureUsed[0] = 1; //Atualiza o Array informando que usamos a estrutura pilha e que ha dados nela
+                break;
+            case 2: 
+                if(stack[0] == "\0"){
+                    printf("\nA pilha esta vazia! Stack Overflow!!"); 
+                    structureUsed[0] = 0; // Atualiza o array informando que a estrutura pilha agora esta vazia
+                }else
+                    pop();
+                break;
+            case 3: 
+                elem = 0;
+                printf("Digite um numero inteiro para converter em binario:	");
+                scanf("%d", &elem);
+                binaryConversor(elem);
+                break;
+            case 5:
+                exit(0);
+            default:
+                puts("\nOpcao invalida!");
+                break;
+        }
+    }
+}
+
+void printStack() {
+    if(peek == -1)
+        printf("Vazia!\n");
+    else
+        for(int in = 0; in < stackLength; in++)
+            printf("%d", stack[in]);
+}
+
+int pop(){
+    int elem;
+    elem = stack[peek];
+    peek--;
+    return elem;
+}
+
+void push(int num){
+        ++peek;
+        stack[peek] = num;
+}
+
+void binaryConversor(int decNum){
+    clearPrompt();
+
+    printf("\n= = = = = = = = = EM CONSTRUCAO = = = = = = = = = =");
 }
 
 // Funcao para somar os valores que estao armazenados no array

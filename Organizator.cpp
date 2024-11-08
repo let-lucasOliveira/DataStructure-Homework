@@ -23,47 +23,55 @@ Neste projeto abordaremos estruturas de dados como:
 
 /******************************** Sessao de prototipacao ****************************************************/
 // Globais
-void DSQuestion();
-void RandomizeArray();
-void sortQuestion();
-void structQuestion();
-void clearPrompt();
+void DSQuestion(); // Funcao principal 
+void RandomizeArray(int array[], int size); // Ira randomizar o array com a constante MAX
+void sortQuestion(); // Pergunta qual metodo sort para ordenar os dados
+void structQuestion(); // Pergunta qual estrutura de dados sera ordenada
+void clearPrompt(); // Limpa o prompt de comando atual
+int strLength(int *arr[]); // Retorna o tamanho de um determinado array
+
+int *stack = (int *)malloc(sizeof(stack) / sizeof(stack[0])); // Pilha global
+int *queue = (int *)malloc(sizeof(queue) / sizeof(queue[0])); // Fila global
 
 // stack, queue, list [0 -> false, 1 -> true]
-int structureUsed[] = {0, 0, 0};
+int structureUsed[] = {0, 0, 0}; // Array binario para retornar qual strutura foi usada.
 
-int strUsdLength = sizeof(structureUsed) / sizeof(structureUsed[0]);
-int arraySum(int arr[]);
+int arraySum(int *arr[]); // Funcao que soma um array
 
 // Sessao pilha
-void StackQuestion();
-int stackLength = sizeof(stack) / sizeof(stack[0]);
-int stack[stackLength];
-int pop();
-void push(int num);
-void printStack();
-void binaryConversor(int decNum);
+void initStack(); // Inicia a estrutura pilha
+void StackQuestion(); // Prompt para adicao ou remocao de dado na pilha
+int pop(); // Assume o valor da ultima posicao adicionada na pilha
+void push(int num); // Adiciona um elemento na ultima posicao
+void printStack(); // Imprime a pilha
+void binaryConversor(int decNum); // Funcao para conversao de um numero de base decimal para base binaria
 
-int peek = -1 ;
-
+int peek = -1; // Topo da pilha
 
 // Sessao fila
-void QueueQuestion();
+void QueueQuestion(); // Prompt da fila para adicicao ou remocao de dados
 
 // Sessao lista
-void listQuestion();
+void ListQuestion(); // Prompt da lista encadeada, para adicao ou remocao de dados
 
 //--------------------Big O Notation----------------
-int comp, trocas;
-void compareSort();
+// :construction: Aqui a intencao eh que comparamos a eficiencia de dois algoritmos sort, usando o tempo de execucao e a quantidade de trocas e comparacao, para determinar a eficiencia e custo para o hardware
+
+int comp, trocas; // Variaveis que armazezam a quantidade de trocas e a quantidade que foram comparadas
+void compareSort(/*void sortMethod(), void sortMethod2(), int structureUsed[]*/);
 
 //---------------------------------------------------
 
 // Sessao bubble sort
-void initBuble();
+void initBuble(); // Inicia o bubble sort
 
 // Sessao selection sort
-void initSelection();
+void initSelection(); // Inicia o selection sort
+
+/****************************** CONSTRUCTION ***********************************************/
+// Sessao insertion sort
+
+// Sessao shell sort
 
 
 /*************************** Fim da sessao de prototipacao **************************************************/
@@ -82,7 +90,7 @@ void DSQuestion(){
     int option = 0;
     puts("==========================");
     puts("Bem vindo ao programa!");
-    printf("\n\nPara iniciarmos digite a opcao que preferir\n1) Lista\n2) Fila\n3) Pilha\n4) Ordenacao de dados\n5) Sair...\n");
+    printf("\n\nPara iniciarmos digite a opcao que preferir\n1) Lista\n2) Fila\n3) Pilha\n4) Ordenacao de dados\n0) Sair...\n");
     scanf("%d", &option);
     switch (option) {
         case 1: // Lista
@@ -97,7 +105,7 @@ void DSQuestion(){
         case 4: // Ordenacao de dados
             structQuestion();
             break;
-        case 5: // Sair
+        case 0: // Sair
             exit(0);
             break;
         default:
@@ -116,18 +124,20 @@ void structQuestion(){
 
     while(1){
         clearPrompt();
-        printf("\nIremos organizar seus dados com o algoritmo de sua preferencia, mas primeiro escolha qual das estrutura deseja organizar:\n");
+        printf("\nPor favor escolha qual estrutura voce gostaria que voce ordenada:\n");
         if(structureUsed[0]){
             printf("1 - Pilha\n");
             scanf("%d", &opt);
-        }else if(structureUsed[1]){
+        };
+        if(structureUsed[1]){
             printf("2 - Fila\n");
             scanf("%d", &opt);
-        }else if(structureUsed[2]){
+        };
+        if(structureUsed[2]){
             printf("3 - Lista\n");
             scanf("%d", &opt);
-        }
-        printf("4 - Um vetor com 1,000 numeros aleatorios\n5 - Sair...");
+        };
+        printf("4 - Um vetor com 1,000 numeros aleatorios\n0 - Voltar...");
         scanf("%d", &opt);
         
         switch(opt){
@@ -135,24 +145,25 @@ void structQuestion(){
                 if (structureUsed[0] == 1)
                     sortQuestion(0);
                 else
-                    printf("Opcao invalida!\n");
+                    printf("Pilha vazia...\nOcao invalida!\n");
                 break;
             case 2: // Queue
                 if (structureUsed[1] == 1)
                     sortQuestion(1);
                 else
-                    printf("Opcao invalida!\n");
+                    printf("Fila vazia...\nOpcao invalida!\n");
                 break;
             case 3: // List
                 if (structureUsed[2] == 1)
                     sortQuestion(2);
                 else
-                    printf("Opcao invalida!\n");
+                    printf("Lista vazia...\nOpcao invalida!\n");
                 break;
             case 4: // sort numbers
+                // Aqui tem que decidir se vamos inserir um array ou se vamos chamar a funcao sortQuestion com uma trajeto para randomizar um array e usa-lo
                 break;
-            case 5: // Done
-                exit(0);
+            case 0: // Exit
+                DSQuestion();
             default:
                 printf("Opcao invalida!\n");
                 break;
@@ -163,38 +174,54 @@ void structQuestion(){
 void sortQuestion(int strChose){
     int opt = strChose;
     int chose;
+    int *auxArray = (int *)malloc(sizeof(auxArray) / sizeof(auxArray[0])); // Aqui criamos um bloco de memoria continuo, se comporta semelhante a um array, mas deixa de ser um... Então podemos nos referir aos proximos blocos como auxArray[]
+    // int size = sizeof(auxArray) / 
 
     // Aqui a intencao eh criar um array auxiliar que ira armazenar as informacoes de acordo com a escolha de estrutura do usuario
     // Nao ha valor default porque ira receber da structQuestion (Precisa verificar se uma func void pode ser recursivaw)
-    switch (opt)
-    {
+    switch (opt){
     case 0: //Stack
+        for(int j = 0; j < peek; j++){
+            auxArray[j] = stack[j];
+        }
         break;
     case 1: // Queue
+        for(int j = 0; j < size; j++){
+            auxArray[j] = queue[j];
+        }
         break;
     case 2: // List
+
         break;
     case 3: // random numbers
+        RandomizeArray(auxArray, 1000); // Esta funcao deve randomizar o array deste escopo
         break;
     }
 
 
     while(10){
-        printf("\nEscolha como devemos organizar esta estrutura:\n1 - Bubble sort\n2 - Selection sort\n3 - Comparar ambos\n4 - Voltar...");
+        printf("\nEscolha como devemos organizar esta estrutura:\n1 - Comparar dois metodos\n2 - Bubble sort\n3 - Selection sort\n4 - Insertion sort\n5 - Shell sort");
+        printf("\n0 - Voltar...");
         scanf("%d", chose);
 
         switch(chose){
             case 1:
-                initBuble();
-                break;
-            case 2:
-                initSelection();
-                break;
-            case 3:
                 compareSort();
                 break;
+            case 2:
+                initBuble();
+                break;
+            case 3:
+                initSelection();
+                break;
             case 4:
-                structQuestion();
+                /* Insertion sort */
+                break;
+            case 5:
+                /* Shell sort */
+                break;
+            case 0:
+                DSQuestion();
                 break;
             default:
                 printf("\nOpcao invalida...");
@@ -205,6 +232,10 @@ void sortQuestion(int strChose){
 
 void structureStack() {
     int value, elem, option;
+
+    clearPrompt();
+    printf("Qual o tamanho da pilha que deseja? "); scanf("%d", &tam);
+
     while(1){
         int option = 0;
         clearPrompt();

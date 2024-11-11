@@ -28,17 +28,14 @@ void RandomizeArray(int array[], int size); // Ira randomizar o array com a cons
 void sortQuestion(); // Pergunta qual metodo sort para ordenar os dados
 void structQuestion(); // Pergunta qual estrutura de dados sera ordenada
 void clearPrompt(); // Limpa o prompt de comando atual
-int strLength(int *arr[]); // Retorna o tamanho de um determinado array
-
-int *stack = (int *)malloc(sizeof(stack) / sizeof(stack[0])); // Pilha global
-int *queue = (int *)malloc(sizeof(queue) / sizeof(queue[0])); // Fila global
+// int strLength(int *arr[]); // Retorna o tamanho de um determinado array
 
 // stack, queue, list [0 -> false, 1 -> true]
 int structureUsed[] = {0, 0, 0}; // Array binario para retornar qual strutura foi usada.
 
-int arraySum(int *arr[]); // Funcao que soma um array
-
 // Sessao pilha
+int *stack = (int *)malloc(sizeof(stack) / sizeof(stack[0])); // Pilha global
+
 void initStack(); // Inicia a estrutura pilha
 void StackQuestion(); // Prompt para adicao ou remocao de dado na pilha
 int pop(); // Assume o valor da ultima posicao adicionada na pilha
@@ -49,6 +46,8 @@ void binaryConversor(int decNum); // Funcao para conversao de um numero de base 
 int peek = -1; // Topo da pilha
 
 // Sessao fila
+int *queue = (int *)malloc(sizeof(queue) / sizeof(queue[0])); // Fila global
+
 void QueueQuestion(); // Prompt da fila para adicicao ou remocao de dados
 
 // Sessao lista
@@ -79,7 +78,18 @@ void initSelection(); // Inicia o selection sort
 /************************************* Sessao de Main *******************************************************/
 
 int main() {
+    if(stack == NULL){
+        printf("\n!!!! Memory allocation failure !!!!");
+        return 1;
+    }
+    if (queue == NULL){
+       printf("\n!!!! Memory allocation failure !!!!");
+        return 1;
+    }
 	DSQuestion();
+
+    free(stack);
+    free(queue);
 }
 
 /******************************** Fim da sessao de Main *****************************************************/
@@ -186,7 +196,7 @@ void sortQuestion(int strChose){
         }
         break;
     case 1: // Queue
-        for(int j = 0; j < size; j++){
+        for(int j = 0; j < peek; j++){
             auxArray[j] = queue[j];
         }
         break;
@@ -233,9 +243,6 @@ void sortQuestion(int strChose){
 void structureStack() {
     int value, elem, option;
 
-    clearPrompt();
-    printf("Qual o tamanho da pilha que deseja? "); scanf("%d", &tam);
-
     while(1){
         int option = 0;
         clearPrompt();
@@ -260,11 +267,12 @@ void structureStack() {
                 structureUsed[0] = 1; //Atualiza o Array informando que usamos a estrutura pilha e que ha dados nela
                 break;
             case 2: 
-                if(stack[0] == "\0"){
-                    printf("\nA pilha esta vazia! Stack Overflow!!"); 
+                if(stack[0] == NULL){
+                    printf("\nA pilha esta vazia!"); 
                     structureUsed[0] = 0; // Atualiza o array informando que a estrutura pilha agora esta vazia
                 }else
-                    pop();
+                    clearPrompt();
+                    printf("%d Retirado!\n",pop());
                 break;
             case 3: 
                 elem = 0;
@@ -273,7 +281,7 @@ void structureStack() {
                 binaryConversor(elem);
                 break;
             case 5:
-                exit(0);
+                DSQuestion();
             default:
                 puts("\nOpcao invalida!");
                 break;
@@ -285,14 +293,14 @@ void printStack() {
     if(peek == -1)
         printf("Vazia!\n");
     else
-        for(int in = 0; in < stackLength; in++)
+        for(int in = 0; in < peek; in++)
             printf("%d", stack[in]);
 }
 
 int pop(){
     int elem;
     elem = stack[peek];
-    peek--;
+    --peek;
     return elem;
 }
 
@@ -308,12 +316,16 @@ void binaryConversor(int decNum){
 }
 
 // Funcao para somar os valores que estao armazenados no array
-int arraySum(int arr[]){
+int arraySum(int *arr){
     int result = 0;
-    for(int ind = 0; ind < strUsdLength; ind++){
+    int arraySize = sizeof(arr) / sizeof(arr[0]);
+
+    for(int ind = 0; ind < arraySize; ind++){
         result += arr[ind];
     }
     return result;
 }
+
+//*********************************************************************************************************//
 
 /*********************** Fim da sessao de Modelagem de funcao **********************************************/

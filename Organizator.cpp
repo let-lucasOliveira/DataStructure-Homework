@@ -27,7 +27,7 @@ Neste projeto abordaremos estruturas de dados como:
 /******************************** Sessao de prototipacao ****************************************************/
 // Globais
 void DSQuestion(); // Funcao principal 
-void RandomizeArray(int array[], int size); // Ira randomizar o array com a constante MAX
+void RandomizeArray(int *array, int size); // Ira randomizar o array com a constante MAX
 void sortQuestion(); // Pergunta qual metodo sort para ordenar os dados
 void structQuestion(); // Pergunta qual estrutura de dados sera ordenada
 void clearPrompt(); // Limpa o prompt de comando atual
@@ -38,9 +38,9 @@ int structureUsed[] = {0, 0, 0}; // Array binario para retornar qual strutura fo
 
 // Sessao pilha
 int *stack = (int *)malloc(sizeof(stack) / sizeof(int)); // Pilha global
+int *binaryStack = (int *)malloc(sizeof(stack) / sizeof(int)); // Pilha para armazenar os numeros de base binaria
 
 void StackQuestion(); // Prompt para adicao ou remocao de dado na pilha
-void initStack(); // Inicia a estrutura pilha
 int pop(); // Assume o valor da ultima posicao adicionada na pilha
 void push(int num); // Adiciona um elemento na ultima posicao
 void printAll(int *arr); // Imprime a pilha
@@ -251,7 +251,7 @@ void sortQuestion(int strChose){
     }
 }
 
-void structureStack() {
+void StackQuestion() {
     int value, elem, option;
 
     while(1){
@@ -289,7 +289,7 @@ void structureStack() {
                 break;
             case 3: 
                 elem = 0;
-                printf("Digite um numero inteiro para converter em binario:	");
+                printf("\nDigite um numero inteiro para converter de base decimal para base binaria:	");
                 scanf("%d", &elem);
                 binaryConversor(elem);
                 break;
@@ -324,8 +324,22 @@ void push(int num){
 
 void binaryConversor(int decNum){
     clearPrompt();
+    int BPeek = -1;
+    int quo, rest;
 
-    printf("\n= = = = = = = = = EM CONSTRUCAO = = = = = = = = = =");
+    while(decNum >= 2){
+        quo = decNum/2;
+        rest = decNum - (quo * 2);
+
+        binaryStack[++BPeek] = quo;
+        decNum = rest;
+    }
+    binaryStack[++BPeek] = decNum;
+    
+    printf("\nResultado em base binaria:    ");
+    
+    while(BPeek >= 0)
+        printf("%d", binaryStack[BPeek--]);
 }
 
 void QueueQuestion(){
@@ -349,7 +363,7 @@ void QueueQuestion(){
             break;
             case 0:
                 DSQuestion();
-            break;
+            break;      
             default:
                 printf("\nOpcao invalida...");
             break;

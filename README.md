@@ -1,17 +1,38 @@
-# Aula da estrutura de dados
-## Objetivo
-    - Praticar as diferentes estruturas de dados em C
-    - Unir as estruturas de dados com a linguagem C, sendo elas: Pilha, Fila e Lista.
+# Sobre o projeto
+Este algoritmo foi criado com o objetivo de práticar os conceitos aprendidos em aula na disciplina de Estruturas de Dados, pelo professor Alexandre Cassiano na Fatec.
 
-## Utilizar métodos de organização de dados, até agora:
-    - [x] Bubble sort
-    - [x] Selection sort
-    - [ ] Insertion sort oct/6/2024
-    - [ ] Shell sort oct/6/2024
+## Funcionalidades do algoritmo
+O algoritmo possui diversos menus de interação.
+#### Menu de interação principal.
+Esta função é a única que ficará dentro da função ```main``` o objetivo dela é servir como um gatilho para direcionar o usuário para dois seguimentos possíveis:
+<details>
+    <summary>Organizar os dados em diferentes estruturas de dados</summary>
+    Sexo é bom nas quartas feiras
+        <ul>
+            <li></li>
+        </ul>
+</details>
+<details>
+    <summary>Ordenar estes dados com diferentes métodos <em>Sort</em></summary>
+        <ul>
+            <li>
+                <p>Disponibilizamos 6 métodos <em>Sort</em> para esta ordenação:</p>
+                <ol>
+                    <li>Bubble sort</li>
+                    <li>Selection sort</li>
+                    <li>Insertion sort</li>
+                    <li>Shell sort</li>
+                    <li>Merge sort</li>
+                    <li>Quick sort</li>
+                </ol>
+                </p>Todos sendo de escolha do usuario</p>
+            </li>
+        </ul>
+</details>
 
-## Estruturas de dados estudadas
-    - Pilha
-    - Fila
-    - Lista encadeada
+### Quais estruturas são abordadas aqui?
+ - [x] Pilha (Stack)
+ - [x] Fila (Queue)
+ - [x] Lista encadeada (Linked list)
 
-### O algoritmo visa, além de praticar a lógica de programação com linguagem C++ e C, aprimorar a lógica de programação e a organização de dados. Permitindo com que o usuário possa escolher e interagir com diversas formas de organização de dados.
+ ###
